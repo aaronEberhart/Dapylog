@@ -12,9 +12,10 @@ By default it will use the included
 file but you can specify your own. 
 Since I didn't feel like writing a fancy 
 parser, all input files must consist 
-of the following single-line instructions:
+of the following types of 
+single-line instructions:
 
-<<blank line>>
+--blank lines--
 nAryDatalogFact(these,are,individuals)
 bodyOfAnyLength(X,ind)^anyArity(X)->head(Z)
 
