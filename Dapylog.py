@@ -12,10 +12,10 @@ By default it will use the included
 file but you can specify your own. 
 Since I didn't feel like writing a fancy 
 parser, all input files must consist 
-of the following types of 
-single-line instructions:
+of the following types of single-line 
+instructions:
 
---blank lines--
+<<blank line>>
 nAryDatalogFact(these,are,individuals)
 bodyOfAnyLength(X,ind)^anyArity(X)->head(Z)
 
@@ -37,15 +37,16 @@ class Program:
 
     def __init__(self, filename=None):
     
-        self.filename = filename
         self.facts = []
         self.rules = []
         self.factsGiven = 0
         self.rulesGiven = 0
         
         if filename:
+            self.filename = filename
             self.readFile(filename)
         else:
+            self.filename = os.path.dirname(os.path.realpath(__file__))+"/datalog.dl"
             self.defaultProgram()
 
     def readFile(self,filename):
@@ -56,7 +57,7 @@ class Program:
         return True  
          
     def defaultProgram(self):
-        self.readFile(os.path.dirname(os.path.realpath(__file__))+"/datalog.dl")
+        self.readFile(self.filename)
 
     def sortLines(self,lines):
         for line in lines:
@@ -401,15 +402,13 @@ class Dapylog:
         return [fact,terms,ground,True]
   
     def loadNewFile(self):
-        pat = input("Enter Filename\n:")
-        fn = ""
         try:
-            fn = os.path.dirname(os.path.realpath(__file__))+'/'+pat
+            fn = os.path.dirname(os.path.realpath(__file__))+'/'+input("Enter Filename\n:")
             self.reasoner.program = Program(fn)
-            self.reasoner.program.filename = fn
-            print("Success!\n")
+            self.analyzed = False
+            print("\nSuccess!\n")
         except:
-            print("File Error\n")
+            print("\nFile Error\n")
         finally:
             self.showMenu()
     
