@@ -17,9 +17,9 @@ Since I didn't feel like writing a fancy
 parser, all input files must consist 
 of the following single-line instructions:
 
---blank lines--
-nAryDatalogFact(these,are,individuals)
-bodyOfAnyLength(X,ind)^anyArity(X)->head(Z)
+--blank lines--</br>
+nAryDatalogFact(these,are,individuals)</br>
+bodyOfAnyLength(X,ind)^anyArity(X)->head(Z)</br>
 
 Individuals and predicate names are words.
 Variables are single capital letters.
