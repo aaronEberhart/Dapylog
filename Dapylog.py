@@ -164,7 +164,7 @@ class Reasoner:
         self.show = show
         beginning = 0
         end = 1
-        print("Starting Reasoner\n")
+        print("\nStarting Reasoner\n")
         while beginning != end:
             beginning = len(self.program.facts)
             self.testRules()
@@ -230,7 +230,6 @@ class Reasoner:
         i = self.nextSubstitutionIndex(rule[1],var)
         if i < 0: return False
         trial = rule[1][i]
-        dic = {}
         for fact in self.program.facts:
             if fact[3] and self.partialMatch(self.switchTerms(trial,var),fact):
                 dic = dict(var)
