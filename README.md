@@ -9,7 +9,8 @@ will let you see the facts and rules the
 program knows, run the reasoner, reset
 the program, add a new fact/rule to the
 database, remove a fact/rule, load a 
-new file, or quit the program. 
+new file, save the program in a new file,
+or quit the program. 
 
 By default it will use the included 
 file but you can specify your own. 
