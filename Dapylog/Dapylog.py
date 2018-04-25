@@ -460,9 +460,7 @@ class Dapylog:
             f.write("\n")
             for rule in self.reasoner.program.rules:
                 for i in range(0,len(rule[1])):
-                    f.write(self.reasoner.program.predToStr(rule[1][i]))
-                    if i < len(rule[1])-1: f.write("^")
-                    else: f.write("->")
+                    f.write(self.reasoner.program.predToStr(rule[1][i])+("^" if i < len(rule[1])-1 else "->"))
                 f.write(self.reasoner.program.predToStr(rule[0])+"\n")
             f.close()
             return "\nSuccess!\n"
