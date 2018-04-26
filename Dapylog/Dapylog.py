@@ -117,9 +117,9 @@ class Program:
         string = str(pred[0]) + "("
         num = 0
         for var in pred[1]:
-        	    string += str(pred[1][num])
-        	    num+=1
-        	    if num < len(pred[1]): string += ","
+            string += str(pred[1][num])
+            num+=1
+            if num < len(pred[1]): string += ","
         return string + ")"
     
     def ruleToStr(self,rule):
@@ -189,20 +189,20 @@ class Reasoner:
                 self.solveRule(newRule,dic)
                 
     def substitute(self,rule,fact,dic,k):
-         newBody = self.program.copyBody(rule[1]) 
-         for i in range(0,len(newBody[k][1])):
-             if newBody[k][1][i] in dic.keys() and dic[newBody[k][1][i]] == fact[1][i]:
-                 continue
-             elif newBody[k][1][i] not in dic.keys() and len(newBody[k][1][i]) == 1:
-                 dic[newBody[k][1][i]] = fact[1][i]
-             newBody[k][2] = True
-         active = True if rule[2] else False
-         newRule = [self.program.copyPred(rule[0]),newBody,active]
-         return newRule
+        newBody = self.program.copyBody(rule[1]) 
+        for i in range(0,len(newBody[k][1])):
+            if newBody[k][1][i] in dic.keys() and dic[newBody[k][1][i]] == fact[1][i]:
+                continue
+            elif newBody[k][1][i] not in dic.keys() and len(newBody[k][1][i]) == 1:
+                dic[newBody[k][1][i]] = fact[1][i]
+            newBody[k][2] = True
+        active = True if rule[2] else False
+        newRule = [self.program.copyPred(rule[0]),newBody,active]
+        return newRule
          
     def solveRule(self,rule,dic):
         if self.isSatisfied(rule[1],dic):
-            self.addHead(rule[0],dic)
+            self.addHead(rule,dic)
         else:
             self.tryNewSubstitutions(rule,dic)
      
@@ -270,10 +270,10 @@ class Reasoner:
         head.append(True)
         return head
 
-    def addHead(self,head,var):
-        newFact = self.groundHead(head,var)
+    def addHead(self,rule,var):    
+        newFact = self.groundHead(rule[0],var)
         if self.isFact(newFact): return True
-        if self.show: print("Added:\t",self.program.predToStr(newFact),"\n")
+        if self.show: print("Solved Rule:\t"+self.program.ruleToStr([newFact,list(map(lambda atom: self.switchTerms(atom,var),rule[1])),rule[2]])+"Added Fact:\t"+self.program.predToStr(newFact)+"\n")
         self.program.facts.append(newFact)
         return True
     
