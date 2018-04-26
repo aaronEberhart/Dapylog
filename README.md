@@ -3,7 +3,7 @@
 --From .py file comment:
 
 This python file can load a datalog 
-program and deduce facts from it. The menu
+program and learn facts from it. The menu
 that runs with any Dapylog instance 
 will let you see the facts and rules the
 program knows, run the reasoner, reset
