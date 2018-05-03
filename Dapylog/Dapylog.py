@@ -7,17 +7,14 @@ program knows, run the reasoner, reset
 the program, add a new fact/rule to the
 database, remove a fact/rule, load a 
 new file, or quit the program. 
-
 By default it will use the included 
 file but you can specify your own. 
 Since I didn't feel like writing a fancy 
 parser, all input files must consist 
 of the following single-line instructions:
-
 <<blank line>>
 nAryDatalogFact(these,are,individuals)
 bodyOfAnyLength(X,ind)^anyArity(X)->head(Z)
-
 Individuals and predicate names are words.
 Variables are single capital letters.
 Don't use single capital letters or blank
@@ -26,8 +23,6 @@ Spaces other than blank lines could
 break the program.
 Datalog comments don't work either. 
 Maybe put them in the python file?
-
-
 Author: Aaron Eberhart
 '''
 import os,sys
@@ -289,7 +284,7 @@ class Dapylog:
         self.showMenu()
         
     def showMenu(self):
-        self.menuSwitch(self.intSafe(input("Choose one:\n\n1\tDisplay Current Database\n2\tRun Reasoner on Database\n3\tAdd Fact To Database\n4\tAdd Rule To Database\n5\tDelete Fact From Database\n6\tDelete Rule From Database\n7\tReset Database\n8\tLoad New File\n9\tSave Program to File\n10\tExit Program\n:")))
+        self.menuSwitch(self.intSafe(input("\nChoose one:\n\n1\tDisplay Current Database\n2\tRun Reasoner on Database\n3\tAdd Fact To Database\n4\tAdd Rule To Database\n5\tDelete Fact From Database\n6\tDelete Rule From Database\n7\tReset Database\n8\tLoad New File\n9\tSave Program to File\n10\tExit Program\n:")))
 
     def menuSwitch(self,option):
         if option == 1: self.display()
@@ -328,16 +323,17 @@ class Dapylog:
     
     
     def addFact(self):
-        newFact = True if self.intSafe(input("\nAdd new fact or re-add deleted fact?\n1\tnew\nother\told\n:")) == 1 else False
-        if newFact: self.addNewFact()
-        else: self.addOldFact()
+        newFact = self.intSafe(input("\nAdd new fact or re-add deleted fact?\n1\tnew\n2\told\nother\tGo Back\n:"))  
+        if newFact == 1: self.addNewFact()
+        elif newFact == 2: self.addOldFact()
+        else: self.showMenu()
         
     def addOldFact(self):
         facts = [fact for fact in self.reasoner.program.facts if not fact[3]]
         options = "\nAdd Which Fact?\n"
         for i in range(0,len(facts)):
             options+="{0}\t{1}\n".format(i+1,self.reasoner.program.predToStr(facts[i]))
-        options+="other\tGo Back\n".format(len(facts)+1)
+        options+="other\tGo Back\n"
         print(options)
         choice = input("Choice\n:")
         if len(facts) > 0 and choice.isdigit() and self.intSafe(choice) < len(facts)+1: self.reasoner.program.facts[self.reasoner.program.facts.index(facts[self.intSafe(choice)-1])][3] = True
@@ -357,20 +353,20 @@ class Dapylog:
             else: print("Not an allowed individual")
         self.reasoner.program.facts.append([fact,terms,ground,True])
         self.analyzed = False
-        print()
         self.showMenu()
     
     def addRule(self):
-        newRule = True if self.intSafe(input("\nAdd new rule or re-add deleted rule?\n1\tnew\nother\told\n:")) == 1 else False
-        if newRule: self.addNewRule()
-        else: self.addOldRule()
+        newRule = self.intSafe(input("\nAdd new rule or re-add deleted rule?\n1\tnew\n2\toldold\nother\tGo Back\n::"))
+        if newRule == 1: self.addNewRule()
+        elif newRule == 2: self.addOldRule()
+        else: self.showMenu()
         
     def addOldRule(self):
         rules = [rule for rule in self.reasoner.program.rules if not rule[2]]
         options = "\nAdd Which Rule?\n"
         for i in range(0,len(rules)):
             options+="{0}\t{1}\n".format(i+1,self.reasoner.program.ruleToStr(rules[i]))
-        options+="other\tGo Back\n".format(len(rules)+1)
+        options+="other\tGo Back\n"
         print(options)
         choice = input("Choice\n:")
         if len(rules)>0 and choice.isdigit() and self.intSafe(choice)<len(rules)+1: self.reasoner.program.rules[self.reasoner.program.rules.index(rules[self.intSafe(choice)-1])][2] = True
@@ -383,7 +379,6 @@ class Dapylog:
         print("\nNow input predicate for head.")
         head = self.makeRuleAtom()
         self.reasoner.program.rules.append([head,body,True])
-        print()
         self.showMenu()
     
     def makeRuleAtom(self):
@@ -416,7 +411,7 @@ class Dapylog:
         options = "\nDelete Which Fact?\n"
         for i in range(0,len(facts)):
             options+="{0}\t{1}\n".format(i+1,self.reasoner.program.predToStr(facts[i]))
-        options+="other\tGo Back\n".format(len(facts)+1)
+        options+="other\tGo Back\n"
         print(options)
         choice = input("Choice\n:")
         if len(facts) > 0 and choice.isdigit() and self.intSafe(choice) < len(facts)+1: self.reasoner.program.facts[self.reasoner.program.facts.index(facts[self.intSafe(choice)-1])][3] = False
@@ -427,7 +422,7 @@ class Dapylog:
         options = "\nDelete Which Rule?\n"
         for i in range(0,len(rules)):
             options+="{0}\t{1}\n".format(i+1,self.reasoner.program.ruleToStr(rules[i]))
-        options+="other\tGo Back\n".format(len(rules)+1)
+        options+="other\tGo Back\n"
         print(options)
         choice = input("Choice\n:")
         if len(rules)>0 and choice.isdigit() and self.intSafe(choice)<len(rules)+1: self.reasoner.program.rules[self.reasoner.program.rules.index(rules[self.intSafe(choice)-1])][2] = False
@@ -476,4 +471,3 @@ class Dapylog:
         
 
 dpl = Dapylog()
-
