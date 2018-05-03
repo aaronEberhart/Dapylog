@@ -1,5 +1,5 @@
-ex()
-two()
+
+
 
 married(bob,john)
 married(julie,otto)
@@ -18,7 +18,7 @@ cutsHairOf(sally,dana)
 cutsHairOf(julie,otto)
 cutsHairOf(bob,sally)
 
-hasParent(A,B)^hasParent(A,C)^married(C,D)^el()^one()->hasAMarriedParent(A)
-hasParent(A,B)^hasParent(A,C)^married(C,B)^ex()^one()->hasParentsMarriedToEachOther(A)
-hasParent(A,B)^cutsHairOf(B,C)^hasParent(A,D)^married(D,E)^el()^two()->hasAMarriedParentAndAParentThatCutsHair(A)
-hasParent(A,B)^cutsHairOf(B,C)^hasParent(A,C)^married(C,B)^ex()^two()->hasParentsMarriedToEachOtherAndOneCutsTheOthersHair(A)
+hasParent(A,B)^hasParent(A,C)^married(C,D)->hasAMarriedParent(A)
+hasParent(A,B)^hasParent(A,C)^married(C,B)->hasParentsMarriedToEachOther(A)
+hasParent(A,B)^cutsHairOf(B,C)^hasParent(A,D)^married(D,E)->hasAMarriedParentAndAParentThatCutsHair(A)
+hasParent(A,B)^cutsHairOf(B,C)^hasParent(A,C)^married(C,B)->hasParentsMarriedToEachOtherAndOneCutsTheOthersHair(A)
